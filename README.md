@@ -1,38 +1,38 @@
-# starter-node-bot
+# Attendigo
 
-## Overview
-A simple starting point for creating a Beep Boop hostable, Node.js based Slack bot with botkit
+1. Create an .env file
+2. Add keys:
 
-Visit [Beep Boop](https://beepboophq.com/docs/article/overview) to get the scoop on the the Beep Boop hosting platform. The Slack API documentation can be found [here](https://api.slack.com/).
+```
+SLACK_TOKEN=<token>
+SLACK_CLIENT_ID=<client_id>
+SLACK_CLIENT_SECRET=<client_secret>
+SLACK_BASE_URL=<base_url>
+SLACK_PORT=443
+SLACK_WEBHOOK_SSL_ENABLED=0
+SLACK_WEBHOOK_SSL_KEY=
+SLACK_WEBHOOK_SSL_CERT=
+SLACK_WEBHOOK_SSL_CA_BUNDLE=
+```
 
-## Assumptions
-* You have already signed up with [Beep Boop](https://beepboophq.com) and have a local fork of this project.
-* You have sufficient rights in your Slack team to configure a bot and generate/access a Slack API token.
+Get the `SLACK_TOKEN` value from the [Slack new bot page](https://my.slack.com/services/new/bot).
 
-## Usage
+Grab the `SLACK_CLIENT_ID` and `SLACK_CLIENT_SECRET` values from the [Slack app registration page](https://api.slack.com/apps?new_app=1).
 
-### Run locally
-	npm install
-	SLACK_TOKEN=<YOUR_SLACK_TOKEN> npm start
+Enter your local URL in `SLACK_BASE_URL`. It must be an HTTPS connection. BotKit comes with its own local Express server running an OAuth endpoint. You can either manually load SSL keys and certs (via `SLACK_WEBHOOK_SSL*` environment variables), or use a program like [ngrok.io](https://ngrok.io) with command `ngrok http -subdomain=attendigo 443`. This will create a domain like `attendigo.ngrok.io` serving via port 443.
 
-Things are looking good if the console prints something like:
+You will need to configure the following settings in your app:
 
-    ** API CALL: https://slack.com/api/rtm.start
-    ** BOT ID:  witty  ...attempting to connect to RTM!
-    ** API CALL: https://slack.com/api/chat.postMessage
+- Interactive Components (*Request URL* should be https://your.domain:443/slack/receive)
+- OAuth & Permissions (*Redirect URLs* should be https://your.domain:443)
 
-### Run locally in Docker
-	docker build -t starter-node .`
-	docker run --rm -it -e SLACK_TOKEN=<YOUR SLACK API TOKEN> starter-node
+Open https://your.domain:443/login in your browser to start the OAuth process.
 
-### Run in BeepBoop
-If you have linked your local repo with the Beep Boop service (check [here](https://beepboophq.com/0_o/my-projects)), changes pushed to the remote master branch will automatically deploy.
+Run:
 
-## Acknowledgements
+```
+npm install
+sudo node attendigo.js
+```
 
-This code uses the [botkit](https://github.com/howdyai/botkit) npm module by the fine folks at Howdy.ai.
-
-## License
-
-See the [LICENSE](LICENSE.md) file (MIT).
-
+Attendigo will run an Express web server on port 443.

@@ -1,3 +1,12 @@
-node_modules
-.DS_Store*
-npm-debug.log
+docs/
+examples/
+node_modules/
+attendigo.json/
+start.sh
+start_button.sh
+.DS_Store
+*/.DS_Store
+.env
+.vscode
+.editorconfig
+package-lock.json
